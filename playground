@@ -5,7 +5,10 @@ if [[ $1 == "-h" ]] || [[ $1 == "--help" ]]
     then
     echo "Playground"
     echo "----------"
-    echo "Easily create Swift playgrounds from the command line"
+    echo "Easily create Swift playgrounds from the command line."
+    echo ""
+    echo "Optionally accepts input from stdIn to prepopulate playground, e.g."
+    echo "cat source.swift | playground"
     echo ""
     echo "Options:"
     echo "   -f   [File path]   Create or open a playground at the specified path (default: ~/Desktop/[Date].playground)"
@@ -71,8 +74,14 @@ case $PLATFORM in
     *) FRAMEWORK="Foundation" ;;
 esac
 
-# Create the Contents.swift file
-printf "import $FRAMEWORK\n\n" > Contents.swift
+if [ -t 0 ] ; then
+  # Create the Contents.swift file
+  printf "import $FRAMEWORK\n\n" > Contents.swift
+else
+  # Receive input from stdIn
+  INPUT=$(</dev/stdin)
+  printf "import $FRAMEWORK\n\n$INPUT" > Contents.swift
+fi
 
 # Create timeline file
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Timeline version=\"3.0\"><TimelineItems></TimelineItems></Timeline>" > timeline.xctimeline
