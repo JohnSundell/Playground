@@ -27,7 +27,7 @@ done
 # Default file path & .playground suffix
 if [ -z "$FILE_PATH" ]
     then
-    datetime=$(date "+%d-%m-%Y")
+    datetime=$(date "+%d-%m-%Y_%H-%M-%S")
     FILE_PATH="~/Desktop/$datetime.playground"
 else
     case $FILE_PATH in
