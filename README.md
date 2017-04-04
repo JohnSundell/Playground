@@ -12,7 +12,7 @@ Simply run `playground` in your terminal, and you’ll have a playground opened 
 To install `playground`, simply run the following command in your terminal of choice:
 
 ```
-$ curl https://raw.githubusercontent.com/JohnSundell/playground/master/playground > /usr/local/bin/playground; chmod +x /usr/local/bin/playground
+$ curl https://raw.githubusercontent.com/cameroncooke/playground/master/playground > /usr/local/bin/playground; chmod +x /usr/local/bin/playground
 ```
 
 ### Documentation
