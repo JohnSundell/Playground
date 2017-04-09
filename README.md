@@ -40,7 +40,7 @@ $ playground -p tvOS
 The easiest way to install `playground` is using [Marathon](https://github.com/johnsundell/marathon):
 
 ```
-$ marathon install https://raw.githubusercontent.com/JohnSundell/Playground/master/playground.swift
+$ marathon install https://raw.githubusercontent.com/JohnSundell/Playground/master/Sources/Playground.swift
 ```
 
 You can also install it manually by following these steps:
