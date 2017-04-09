@@ -43,12 +43,14 @@ The easiest way to install `playground` is using [Marathon](https://github.com/j
 $ marathon install https://raw.githubusercontent.com/JohnSundell/Playground/master/Sources/Playground.swift
 ```
 
-You can also install it manually by following these steps:
+You can also install it using the Swift Package Manager:
 
-- Clone the repo: `$ git clone git@github.com:johnsundell/playground`.
-- Make the script executable: `$ chmod +x playground/playground.swift`.
-- Remove `.swift` from `playground.swift`.
-- Move the `playground` file to `/usr/local/bin`.
+```
+$ git clone git@github.com:JohnSundell/Playground.git
+$ cd Playground
+$ swift build -c release -Xswiftc -static-stdlib
+$ cp -f .build/release/Marathon /usr/local/bin/playground
+```
 
 ## Help, feedback or suggestions?
 
