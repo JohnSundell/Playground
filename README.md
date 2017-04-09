@@ -2,7 +2,12 @@
 
 Welcome to `playground`, a Swift script that enables you to super quickly generate Swift playgrounds from the command line - with or without dependencies - for any supported platform.
 
-Swift playgrounds are awesome for rapid prototyping, code note taking or just trying out something new or crazy. With `playground` you can get a playground up and running super quickly, and it takes all the hassle away when it comes to adding dependencies to a playground, making it easier than ever to try out new packages.
+**Features**
+
+- [X] Generate playgrounds in seconds.
+- [X] Automatically reuse any playground created today, for easy code note taking.
+- [X] Add dependencies to a playground with a simple command - no more fiddling with workspaces.
+- [X] Supports iOS, macOS & tvOS.
 
 ## Usage
 
