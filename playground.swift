@@ -1,3 +1,5 @@
+#!/usr/bin/swift
+
 import Foundation
 import Xgen
 import Files
@@ -214,5 +216,3 @@ do {
 } catch {
     print("💥  An error occured: \(error)")
 }
-
-
