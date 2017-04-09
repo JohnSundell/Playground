@@ -11,7 +11,11 @@ Welcome to `playground`, a Swift script that enables you to super quickly genera
 
 ## Usage
 
-Simply run `playground` on the command line, and a new playground will be created for you.
+**Simply run `playground` and a new playground will be created and opened**
+
+```
+$ playground
+```
 
 You can also supply various arguments to customize your playground:
 
