@@ -53,7 +53,7 @@ You can also install it using the Swift Package Manager:
 $ git clone git@github.com:JohnSundell/Playground.git
 $ cd Playground
 $ swift build -c release -Xswiftc -static-stdlib
-$ cp -f .build/release/Marathon /usr/local/bin/playground
+$ cp -f .build/release/Playground /usr/local/bin/playground
 ```
 
 ## Help, feedback or suggestions?
