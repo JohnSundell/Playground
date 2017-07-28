@@ -50,7 +50,15 @@ extension Playground {
             viewCode.append("\nimport PlaygroundSupport\n\n")
             viewCode.append("let viewFrame = CGRect(x: 0, y: 0, width: 500, height: 500)\n")
             viewCode.append("let view = \(viewClass)(frame: viewFrame)\n")
-            viewCode.append("view.backgroundColor = .white\n")
+
+            switch platform {
+            case .iOS, .tvOS:
+                viewCode.append("view.backgroundColor = .white\n")
+            case .macOS:
+                viewCode.append("view.wantsLayer = true\n")
+                viewCode.append("view.layer!.backgroundColor = NSColor.white.cgColor\n")
+            }
+
             viewCode.append("PlaygroundPage.current.liveView = view\n")
 
             code = viewCode
