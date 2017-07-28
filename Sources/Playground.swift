@@ -34,6 +34,26 @@ extension Playground {
 
         if let newCode = options.code {
             code = newCode
+        } else if options.addViewCode {
+            let viewClass: String
+            var viewCode: String
+
+            switch platform {
+            case .iOS, .tvOS:
+                viewCode = "import UIKit"
+                viewClass = "UIView"
+            case .macOS:
+                viewCode = "import Cocoa"
+                viewClass = "NSView"
+            }
+
+            viewCode.append("\nimport PlaygroundSupport\n\n")
+            viewCode.append("let viewFrame = CGRect(x: 0, y: 0, width: 500, height: 500)\n")
+            viewCode.append("let view = \(viewClass)(frame: viewFrame)\n")
+            viewCode.append("view.backgroundColor = .white\n")
+            viewCode.append("PlaygroundPage.current.liveView = view\n")
+
+            code = viewCode
         }
     }
 }
@@ -67,6 +87,7 @@ enum Flag: String {
     case platform = "-p"
     case dependencies = "-d"
     case code = "-c"
+    case addViewCode = "-v"
     case forceOverwrite = "-f"
     case help = "-h"
 }
@@ -76,6 +97,7 @@ struct Options {
     var platform = Playground.Platform.iOS
     var dependencies = [Folder]()
     var code: String? = nil
+    var addViewCode = false
     var forceOverwrite = false
     var displayHelp = false
 
@@ -92,6 +114,8 @@ struct Options {
                 throw PlaygroundError.missingValue(danglingFlag)
             case .forceOverwrite:
                 forceOverwrite = true
+            case .addViewCode:
+                addViewCode = true
             case .help:
                 displayHelp = true
             }
@@ -131,6 +155,9 @@ struct Options {
             }
         case .code:
             code = argument
+        case .addViewCode:
+            addViewCode = true
+            return try parse(argument: argument)
         case .forceOverwrite:
             forceOverwrite = true
             return try parse(argument: argument)
@@ -160,6 +187,8 @@ func displayHelp() {
     print("         Should be a comma-separated list of file paths")
     print("📄  -c   Any code that you want to playground to contain")
     print("         Default: An empty playground that imports the system framework")
+    print("🌄  -v   Fill the playground with the code required to prototype a view")
+    print("         Default: Any code specified with -c or its default value")
     print("💪  -f   Force overwrite any existing playground at the target path")
     print("         Default: Don't overwrite, and instead open any existing playground")
     print("ℹ️  -h   Display this information")
