@@ -33,6 +33,12 @@ $ playground -t ~/MyPlayground
 $ playground -d ~/unbox/unbox.xcodeproj,~/files/files.xcodeproj
 ```
 
+**Quickly get started with view code prototyping**
+
+```
+$ playground -v
+```
+
 **Specify what platform you want the playground to run on**
 
 ```
@@ -46,7 +52,7 @@ $ playground -p tvOS
 The easiest way to install `playground` is using [Marathon](https://github.com/johnsundell/marathon):
 
 ```
-$ marathon install https://raw.githubusercontent.com/JohnSundell/Playground/master/Sources/Playground.swift
+$ marathon install johnsundell/playground
 ```
 
 You can also install it using the Swift Package Manager:
