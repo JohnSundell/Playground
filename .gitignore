@@ -66,5 +66,6 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 
-# When SPM is used, it will rename Sources/Playground.swift to Sources/main.swift
+# When SPM is used, Sources/Playground.swift will be renamed to Sources/main.swift
 Sources/main.swift
+Package.resolved
