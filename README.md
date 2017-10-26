@@ -14,6 +14,7 @@ It essentially provies a command line interface to [Xgen](https://github.com/joh
 - [X] Generate playgrounds in seconds.
 - [X] Automatically reuse any playground created today, for easy code note taking.
 - [X] Add dependencies to a playground with a simple command - no more fiddling with workspaces.
+- [X] Easily open a Gist or code from a GitHub URL in a playground.
 - [X] Supports iOS, macOS & tvOS.
 
 ## Usage
@@ -36,6 +37,12 @@ $ playground -t ~/MyPlayground
 
 ```
 $ playground -d ~/unbox/unbox.xcodeproj,~/files/files.xcodeproj
+```
+
+**Open the contents of a Gist, a GitHub URL or any other URL in a playground**
+
+```
+$ playground -u https://gist.github.com/JohnSundell/b7f901e8edb89d1396ede4d8db3e8c21
 ```
 
 **Quickly get started with view code prototyping**

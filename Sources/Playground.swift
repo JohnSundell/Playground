@@ -29,7 +29,7 @@ extension Date {
 }
 
 extension Playground {
-    func apply(_ options: Options) {
+    func apply(_ options: Options) throws {
         platform = options.platform
 
         if let newCode = options.code {
@@ -62,6 +62,39 @@ extension Playground {
             viewCode.append("PlaygroundPage.current.liveView = view\n")
 
             code = viewCode
+        } else if let url = options.codeURL {
+            var loadedCode = try loadCode(from: url)
+
+            if loadedCode.contains("import Cocoa") || loadedCode.contains("import AppKit") {
+                platform = .macOS
+            } else if !loadedCode.contains("import Foundation") && !loadedCode.contains("import UIKit") {
+                loadedCode = "import Foundation\n\n" + loadedCode
+            }
+
+            code = loadedCode
+        }
+    }
+
+    private func loadCode(from url: URL) throws -> String {
+        print("🌍  Downloading code from \(url)...")
+
+        var url = url
+        let urlString = url.absoluteString
+
+        if urlString.contains("gist.github.com") {
+            if !urlString.contains("/raw") {
+                url = url.appendingPathComponent("raw")
+            }
+        } else if let gitHubRange = urlString.range(of: "github.com/") {
+            let urlSuffix = urlString[gitHubRange.upperBound...]
+            let rawURLSuffix = urlSuffix.replacingOccurrences(of: "/blob/", with: "/")
+            url = URL(string: "https://raw.githubusercontent.com/" + rawURLSuffix)!
+        }
+
+        do {
+            return try String(contentsOf: url, encoding: .utf8)
+        } catch {
+            throw PlaygroundError.codeDownloadFailed(error)
         }
     }
 }
@@ -73,6 +106,7 @@ enum PlaygroundError: Error {
     case missingValue(Flag)
     case invalidPlatform(String)
     case invalidDependency(String)
+    case codeDownloadFailed(Error)
 }
 
 extension PlaygroundError: CustomStringConvertible {
@@ -86,6 +120,8 @@ extension PlaygroundError: CustomStringConvertible {
             return "Invalid platform '\(platform)'. Must be iOS, macOS or tvOS."
         case .invalidDependency(let dependency):
             return "Invalid dependency '\(dependency)'. Make sure that it's an Xcode project that exists."
+        case .codeDownloadFailed(let error):
+            return "Failed to download code from the given URL. Underlying error: \(error)."
         }
     }
 }
@@ -95,21 +131,26 @@ enum Flag: String {
     case platform = "-p"
     case dependencies = "-d"
     case code = "-c"
+    case url = "-u"
     case addViewCode = "-v"
     case forceOverwrite = "-f"
     case help = "-h"
 }
 
 struct Options {
-    var targetPath = "~/Desktop/\(Date().today)"
+    var targetPath: String
     var platform = Playground.Platform.iOS
     var dependencies = [Folder]()
     var code: String? = nil
+    var codeURL: URL? = nil
     var addViewCode = false
     var forceOverwrite = false
     var displayHelp = false
 
     init(arguments: [String] = CommandLine.argumentsExcludingLaunchPath) throws {
+        let defaultTargetPath = "~/Desktop/\(Date().today)"
+        targetPath = defaultTargetPath
+
         var currentFlag: Flag?
 
         for argument in arguments {
@@ -118,7 +159,7 @@ struct Options {
 
         if let danglingFlag = currentFlag {
             switch danglingFlag {
-            case .targetPath, .platform, .dependencies, .code:
+            case .targetPath, .platform, .dependencies, .code, .url:
                 throw PlaygroundError.missingValue(danglingFlag)
             case .forceOverwrite:
                 forceOverwrite = true
@@ -127,6 +168,10 @@ struct Options {
             case .help:
                 displayHelp = true
             }
+        }
+
+        if codeURL != nil && targetPath == defaultTargetPath {
+            targetPath += "-\(UUID().uuidString)"
         }
     }
 
@@ -163,6 +208,8 @@ struct Options {
             }
         case .code:
             code = argument
+        case .url:
+            codeURL = URL(string: argument)
         case .addViewCode:
             addViewCode = true
             return try parse(argument: argument)
@@ -195,6 +242,8 @@ func displayHelp() {
     print("         Should be a comma-separated list of file paths")
     print("📄  -c   Any code that you want to playground to contain")
     print("         Default: An empty playground that imports the system framework")
+    print("🌍  -u   Any URL to code that you want the playground to contain")
+    print("         Gist & GitHub links are automatically handled")
     print("🌄  -v   Fill the playground with the code required to prototype a view")
     print("         Default: Any code specified with -c or its default value")
     print("💪  -f   Force overwrite any existing playground at the target path")
@@ -230,7 +279,7 @@ do {
         try openIfNeeded(path: workspace.path)
 
         let playground = workspace.addPlayground()
-        playground.apply(options)
+        try playground.apply(options)
 
         for dependency in options.dependencies {
             workspace.addProject(at: dependency.path)
@@ -244,7 +293,7 @@ do {
         let playground = Playground(path: options.targetPath)
         try openIfNeeded(path: playground.path)
 
-        playground.apply(options)
+        try playground.apply(options)
         try playground.generate()
 
         print("✅  Generated Playground at \(playground.path)")
