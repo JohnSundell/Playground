@@ -70,7 +70,7 @@ $ marathon install johnsundell/playground
 You can also install it using the Swift Package Manager:
 
 ```
-$ git clone git@github.com:JohnSundell/Playground.git
+$ git clone https://github.com/JohnSundell/Playground.git
 $ cd Playground
 $ mv Sources/Playground.swift Sources/main.swift
 $ swift build -c release -Xswiftc -static-stdlib
