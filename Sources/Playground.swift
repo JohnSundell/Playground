@@ -186,7 +186,11 @@ struct Options {
 
         switch flag {
         case .targetPath:
-            targetPath = argument
+            if let folder = try? Folder(path: argument) {
+                targetPath = folder.path + Date().today
+            } else {
+                targetPath = argument
+            }
         case .platform:
             guard let parsedPlatform = Playground.Platform(rawValue: argument.lowercased()) else {
                 throw PlaygroundError.invalidPlatform(argument)
