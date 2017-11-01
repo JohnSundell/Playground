@@ -232,27 +232,31 @@ struct Options {
 // MARK: - Functions
 
 func displayHelp() {
-    print("Playground")
-    print("----------")
-    print("Easily create Swift playgrounds from the command line")
-    print("")
-    print("Options:")
-    print("")
-    print("📁  -t   Specify a target path where the playground should be created")
-    print("         Default: ~/Desktop/<Date>")
-    print("📱  -p   Which platform (iOS, macOS or tvOS) that the playground should run on")
-    print("         Default: iOS")
-    print("📦  -d   Specify any Xcode projects that you wish to add as dependencies")
-    print("         Should be a comma-separated list of file paths")
-    print("📄  -c   Any code that you want to playground to contain")
-    print("         Default: An empty playground that imports the system framework")
-    print("🌍  -u   Any URL to code that you want the playground to contain")
-    print("         Gist & GitHub links are automatically handled")
-    print("🌄  -v   Fill the playground with the code required to prototype a view")
-    print("         Default: Any code specified with -c or its default value")
-    print("💪  -f   Force overwrite any existing playground at the target path")
-    print("         Default: Don't overwrite, and instead open any existing playground")
-    print("ℹ️  -h   Display this information")
+    print(
+        """
+        Playground
+        ----------
+        Easily create Swift playgrounds from the command line
+
+        Options:
+
+        📁  -t  Specify a target path where the playground should be created
+                Default: ~/Desktop/<Date>
+        📱  -p  Which platform (iOS, macOS or tvOS) that the playground should run on
+                Default: iOS
+        📦  -d  Specify any Xcode projects that you wish to add as dependencies
+                Should be a comma-separated list of file paths
+        📄  -c  Any code that you want to playground to contain
+                Default: An empty playground that imports the system framework
+        🌍  -u  Any URL to code that you want the playground to contain
+                Gist & GitHub links are automatically handled
+        🌄  -v  Fill the playground with the code required to prototype a view
+                Default: Any code specified with -c or its default value
+        💪  -f  Force overwrite any existing playground at the target path
+                Default: Don't overwrite, and instead open any existing playground
+        ℹ️  -h  Display this information
+        """
+    )
 }
 
 // MARK: - Script
