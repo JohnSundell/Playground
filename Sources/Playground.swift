@@ -1,6 +1,7 @@
 #!/usr/bin/swift
 
 import Foundation
+import Cocoa
 import Xgen
 import Files
 import ShellOut
@@ -159,12 +160,26 @@ struct Options {
 
         if let danglingFlag = currentFlag {
             switch danglingFlag {
-            case .targetPath, .platform, .dependencies, .code, .url:
+            case .targetPath, .platform, .dependencies, .url:
                 throw PlaygroundError.missingValue(danglingFlag)
             case .forceOverwrite:
                 forceOverwrite = true
             case .addViewCode:
                 addViewCode = true
+            case .code:
+                guard var clipboard = NSPasteboard.general.string(forType: .string) else {
+                    throw PlaygroundError.missingValue(danglingFlag)
+                }
+
+                guard !clipboard.isEmpty else {
+                    throw PlaygroundError.missingValue(danglingFlag)
+                }
+
+                if !clipboard.contains("import ") {
+                    clipboard = "import Foundation\n\n" + clipboard
+                }
+
+                code = clipboard
             case .help:
                 displayHelp = true
             }
@@ -247,6 +262,7 @@ func displayHelp() {
         📦  -d  Specify any Xcode projects that you wish to add as dependencies
                 Should be a comma-separated list of file paths
         📄  -c  Any code that you want to playground to contain
+                Pass this flag without a value to use the contents of your clipboard
                 Default: An empty playground that imports the system framework
         🌍  -u  Any URL to code that you want the playground to contain
                 Gist & GitHub links are automatically handled
