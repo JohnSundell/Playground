@@ -32,48 +32,60 @@ extension Date {
 extension Playground {
     func apply(_ options: Options) throws {
         platform = options.platform
+        try options.code.map(add)
+    }
 
-        if let newCode = options.code {
-            code = newCode
-        } else if options.addViewCode {
-            let viewClass: String
-            var viewCode: String
-
-            switch platform {
-            case .iOS, .tvOS:
-                viewCode = "import UIKit"
-                viewClass = "UIView"
-            case .macOS:
-                viewCode = "import Cocoa"
-                viewClass = "NSView"
-            }
-
-            viewCode.append("\nimport PlaygroundSupport\n\n")
-            viewCode.append("let viewFrame = CGRect(x: 0, y: 0, width: 500, height: 500)\n")
-            viewCode.append("let view = \(viewClass)(frame: viewFrame)\n")
-
-            switch platform {
-            case .iOS, .tvOS:
-                viewCode.append("view.backgroundColor = .white\n")
-            case .macOS:
-                viewCode.append("view.wantsLayer = true\n")
-                viewCode.append("view.layer!.backgroundColor = NSColor.white.cgColor\n")
-            }
-
-            viewCode.append("PlaygroundPage.current.liveView = view\n")
-
-            code = viewCode
-        } else if let url = options.codeURL {
+    private func add(codeOption: Options.Code) throws {
+        switch codeOption {
+        case .view:
+            addViewCode()
+        case .fromClipboard:
+            let pasteboard = NSPasteboard.general
+            let copiedCode = pasteboard.string(forType: .string) ?? ""
+            code = addFrameworkImportsIfNeeded(to: copiedCode)
+        case .fromURL(let url):
             var loadedCode = try loadCode(from: url)
 
             if loadedCode.contains("import Cocoa") || loadedCode.contains("import AppKit") {
                 platform = .macOS
-            } else if !loadedCode.contains("import Foundation") && !loadedCode.contains("import UIKit") {
-                loadedCode = "import Foundation\n\n" + loadedCode
+            } else {
+                loadedCode = addFrameworkImportsIfNeeded(to: loadedCode)
             }
 
             code = loadedCode
+        case .custom(let customCode):
+            code = customCode
         }
+    }
+
+    private func addViewCode() {
+        let viewClass: String
+        var viewCode: String
+
+        switch platform {
+        case .iOS, .tvOS:
+            viewCode = "import UIKit"
+            viewClass = "UIView"
+        case .macOS:
+            viewCode = "import Cocoa"
+            viewClass = "NSView"
+        }
+
+        viewCode.append("\nimport PlaygroundSupport\n\n")
+        viewCode.append("let viewFrame = CGRect(x: 0, y: 0, width: 500, height: 500)\n")
+        viewCode.append("let view = \(viewClass)(frame: viewFrame)\n")
+
+        switch platform {
+        case .iOS, .tvOS:
+            viewCode.append("view.backgroundColor = .white\n")
+        case .macOS:
+            viewCode.append("view.wantsLayer = true\n")
+            viewCode.append("view.layer!.backgroundColor = NSColor.white.cgColor\n")
+        }
+
+        viewCode.append("PlaygroundPage.current.liveView = view\n")
+
+        code = viewCode
     }
 
     private func loadCode(from url: URL) throws -> String {
@@ -97,6 +109,31 @@ extension Playground {
         } catch {
             throw PlaygroundError.codeDownloadFailed(error)
         }
+    }
+
+    private func addFrameworkImportsIfNeeded(to code: String) -> String {
+        var frameworks = ["Foundation", "PlaygroundSupport"]
+
+        switch platform {
+        case .iOS, .tvOS:
+            frameworks.append("UIKit")
+        case .macOS:
+            frameworks.append("Cocoa")
+        }
+
+        let imports = frameworks.flatMap { framework in
+            guard !code.contains(framework) else {
+                return nil
+            }
+
+            return "import \(framework)"
+        }
+
+        guard !imports.isEmpty else {
+            return code
+        }
+
+        return imports.joined(separator: "\n") + "\n\n" + code
     }
 }
 
@@ -142,14 +179,12 @@ struct Options {
     var targetPath: String
     var platform = Playground.Platform.iOS
     var dependencies = [Folder]()
-    var code: String? = nil
-    var codeURL: URL? = nil
-    var addViewCode = false
+    var code: Code? = nil
     var forceOverwrite = false
     var displayHelp = false
 
     init(arguments: [String] = CommandLine.argumentsExcludingLaunchPath) throws {
-        let defaultTargetPath = "~/Desktop/\(Date().today)"
+        let defaultTargetPath = "~/Desktop/\(Date().today).playground"
         targetPath = defaultTargetPath
 
         var currentFlag: Flag?
@@ -165,27 +200,15 @@ struct Options {
             case .forceOverwrite:
                 forceOverwrite = true
             case .addViewCode:
-                addViewCode = true
+                code = .view
             case .code:
-                guard var clipboard = NSPasteboard.general.string(forType: .string) else {
-                    throw PlaygroundError.missingValue(danglingFlag)
-                }
-
-                guard !clipboard.isEmpty else {
-                    throw PlaygroundError.missingValue(danglingFlag)
-                }
-
-                if !clipboard.contains("import ") {
-                    clipboard = "import Foundation\nimport PlaygroundSupport\n\n" + clipboard
-                }
-
-                code = clipboard
+                code = .fromClipboard
             case .help:
                 displayHelp = true
             }
         }
 
-        if codeURL != nil && targetPath == defaultTargetPath {
+        if code != nil && (try? Folder(path: targetPath)) != nil {
             targetPath += "-\(UUID().uuidString)"
         }
     }
@@ -226,11 +249,16 @@ struct Options {
                 }
             }
         case .code:
-            code = argument
+            guard !argument.hasPrefix("-") else {
+                code = .fromClipboard
+                return try parse(argument: argument)
+            }
+
+            code = .custom(argument)
         case .url:
-            codeURL = URL(string: argument)
+            code = URL(string: argument).map(Code.fromURL)
         case .addViewCode:
-            addViewCode = true
+            code = .view
             return try parse(argument: argument)
         case .forceOverwrite:
             forceOverwrite = true
@@ -241,6 +269,15 @@ struct Options {
         }
 
         return nil
+    }
+}
+
+extension Options {
+    enum Code {
+        case view
+        case fromClipboard
+        case fromURL(URL)
+        case custom(String)
     }
 }
 
