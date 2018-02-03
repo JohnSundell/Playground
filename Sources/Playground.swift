@@ -176,7 +176,7 @@ struct Options {
                 }
 
                 if !clipboard.contains("import ") {
-                    clipboard = "import Foundation\n\n" + clipboard
+                    clipboard = "import Foundation\nimport PlaygroundSupport\n\n" + clipboard
                 }
 
                 code = clipboard
