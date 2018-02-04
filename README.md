@@ -7,7 +7,7 @@
 
 Welcome to `playground`, a Swift script that enables you to super quickly generate Swift playgrounds from the command line - with or without dependencies - for any supported platform.
 
-It essentially provies a command line interface to [Xgen](https://github.com/johnsundell/xgen).
+It essentially provides a command line interface to [Xgen](https://github.com/johnsundell/xgen).
 
 **Features**
 
