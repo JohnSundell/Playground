@@ -307,7 +307,7 @@ func displayHelp() {
                 Default: Any code specified with -c or its default value
         💪  -f  Force overwrite any existing playground at the target path
                 Default: Don't overwrite, and instead open any existing playground
-        ℹ️   -h  Display this information
+        ℹ️  -h  Display this information
         """
     )
 }
