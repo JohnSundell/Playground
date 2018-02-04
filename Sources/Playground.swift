@@ -294,11 +294,11 @@ func displayHelp() {
 
         📁  -t  Specify a target path where the playground should be created
                 Default: ~/Desktop/<Date>
-        📱  -p  Which platform (iOS, macOS or tvOS) that the playground should run on
+        📱  -p  Select platform (iOS, macOS or tvOS) that the playground should run on
                 Default: iOS
         📦  -d  Specify any Xcode projects that you wish to add as dependencies
                 Should be a comma-separated list of file paths
-        📄  -c  Any code that you want to playground to contain
+        📄  -c  Any code that you want the playground to contain
                 Pass this flag without a value to use the contents of your clipboard
                 Default: An empty playground that imports the system framework
         🌍  -u  Any URL to code that you want the playground to contain
