@@ -25,7 +25,8 @@ extension Date {
     var today: String {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
-        return formatter.string(from: self)
+        let date = formatter.string(from: self)
+        return date.replacingOccurrences(of: "/", with: "-")
     }
 }
 
