@@ -17,7 +17,7 @@ extension CommandLine {
 
     static func open(path: String) throws {
         print("🚀  Opening \(path)...")
-        try shellOut(to: "open \"\(path)\"")
+        try shellOut(to: "open \(path)")
     }
 }
 
