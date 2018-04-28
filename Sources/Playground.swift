@@ -33,6 +33,7 @@ extension Date {
 extension Playground {
     func apply(_ options: Options) throws {
         platform = options.platform
+        autoRun = options.autoRun
         try options.code.map(add)
     }
 
@@ -173,6 +174,7 @@ enum Flag: String {
     case url = "-u"
     case addViewCode = "-v"
     case forceOverwrite = "-f"
+    case autoRun = "-a"
     case help = "-h"
 }
 
@@ -182,6 +184,7 @@ struct Options {
     var dependencies = [Folder]()
     var code: Code? = nil
     var forceOverwrite = false
+    var autoRun = false
     var displayHelp = false
 
     init(arguments: [String] = CommandLine.argumentsExcludingLaunchPath) throws {
@@ -204,6 +207,8 @@ struct Options {
                 code = .view
             case .code:
                 code = .fromClipboard
+            case .autoRun:
+                autoRun = true
             case .help:
                 displayHelp = true
             }
@@ -264,6 +269,9 @@ struct Options {
         case .forceOverwrite:
             forceOverwrite = true
             return try parse(argument: argument)
+        case .autoRun:
+            autoRun = true
+            return try parse(argument: argument)
         case .help:
             displayHelp = true
             return try parse(argument: argument)
@@ -297,6 +305,8 @@ func displayHelp() {
                 Default: ~/Desktop/<Date>
         📱  -p  Select platform (iOS, macOS or tvOS) that the playground should run on
                 Default: iOS
+        🏃‍♂️  -a  Turn on auto run for the generated playground
+                Default: False
         📦  -d  Specify any Xcode projects that you wish to add as dependencies
                 Should be a comma-separated list of file paths
         📄  -c  Any code that you want the playground to contain
