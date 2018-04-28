@@ -123,7 +123,7 @@ extension Playground {
             frameworks.append("Cocoa")
         }
 
-        let imports = frameworks.flatMap { framework in
+        let imports: [String] = frameworks.compactMap { framework in
             guard !code.contains(framework) else {
                 return nil
             }
