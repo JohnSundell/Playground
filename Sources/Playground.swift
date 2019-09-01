@@ -176,6 +176,7 @@ enum Flag: String {
     case forceOverwrite = "-f"
     case autoRun = "-a"
     case help = "-h"
+    case name = "-n"
 }
 
 struct Options {
@@ -186,20 +187,16 @@ struct Options {
     var forceOverwrite = false
     var autoRun = false
     var displayHelp = false
-
     init(arguments: [String] = CommandLine.argumentsExcludingLaunchPath) throws {
         let defaultTargetPath = "~/Desktop/\(Date().today).playground"
         targetPath = defaultTargetPath
-
         var currentFlag: Flag?
-
         for argument in arguments {
             currentFlag = try parse(argument: argument, for: currentFlag)
         }
-
         if let danglingFlag = currentFlag {
             switch danglingFlag {
-            case .targetPath, .platform, .dependencies, .url:
+            case .targetPath, .platform, .dependencies, .url, .name:
                 throw PlaygroundError.missingValue(danglingFlag)
             case .forceOverwrite:
                 forceOverwrite = true
@@ -224,7 +221,6 @@ struct Options {
             guard let flag = Flag(rawValue: argument) else {
                 throw PlaygroundError.invalidFlag(argument)
             }
-
             return flag
         }
 
@@ -275,7 +271,10 @@ struct Options {
         case .help:
             displayHelp = true
             return try parse(argument: argument)
+        case .name:
+            targetPath = targetPath.replacingOccurrences(of: "\(Date().today).playground", with: "\(argument).playground")
         }
+
 
         return nil
     }
@@ -318,6 +317,8 @@ func displayHelp() {
                 Default: Any code specified with -c or its default value
         💪  -f  Force overwrite any existing playground at the target path
                 Default: Don't overwrite, and instead open any existing playground
+        📛  -n  Name of the playground
+                Default: <Date>
         ℹ️  -h  Display this information
         """
     )
@@ -327,7 +328,6 @@ func displayHelp() {
 
 do {
     let options = try Options()
-
     guard !options.displayHelp else {
         displayHelp()
         exit(0)
