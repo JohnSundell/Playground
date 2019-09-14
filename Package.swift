@@ -12,6 +12,12 @@ import PackageDescription
 // Package description
 let package = Package(
     name: "Playground",
+    products: [
+        .executable(
+            name: "playground",
+            targets: ["Playground"]
+        )
+    ],
     dependencies: [
         .package(url: "https://github.com/JohnSundell/Files.git", from: "2.0.0"),
         .package(url: "https://github.com/JohnSundell/ShellOut.git", from: "2.0.0"),
