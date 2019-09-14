@@ -1,4 +1,4 @@
-// swift-tools-version:4.1
+// swift-tools-version:5.0
 
 /**
  *  Playground
@@ -12,6 +12,9 @@ import PackageDescription
 // Package description
 let package = Package(
     name: "Playground",
+    platforms: [
+        .macOS(.v10_10),
+    ],
     products: [
         .executable(
             name: "playground",
