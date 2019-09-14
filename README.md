@@ -1,7 +1,7 @@
 # Playground
 
 [![Swift 4.1](https://img.shields.io/badge/swift-4.1-orange.svg?style=flat)](#)
-[![Marathon](https://img.shields.io/badge/marathon-compatible-brightgreen.svg?style=flat)](https://github.com/johnsundell/marathon)
+[![Mint](https://img.shields.io/badge/Mint-compatible-brightgreen.svg?style=flat)](https://github.com/yonaskolb/Mint)
 [![SPM](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://github.com/apple/swift-package-manager)
 [![@johnsundell](https://img.shields.io/badge/contact-@johnsundell-blue.svg?style=flat)](https://twitter.com/johnsundell)
 
@@ -61,10 +61,10 @@ $ playground -p tvOS
 
 ## Installation
 
-The easiest way to install `playground` is using [Marathon](https://github.com/johnsundell/marathon):
+The easiest way to install `playground` is using [Mint](https://github.com/yonaskolb/Mint):
 
 ```
-$ marathon install johnsundell/playground
+$ mint install JohnSundell/Playground
 ```
 
 You can also install it using the Swift Package Manager:
