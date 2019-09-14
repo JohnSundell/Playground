@@ -72,7 +72,6 @@ You can also install it using the Swift Package Manager:
 ```
 $ git clone https://github.com/JohnSundell/Playground.git
 $ cd Playground
-$ mv Sources/Playground.swift Sources/main.swift
 $ swift build -c release
 $ cp -f .build/release/Playground /usr/local/bin/playground
 ```
