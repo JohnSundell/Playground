@@ -61,13 +61,7 @@ $ playground -p tvOS
 
 ## Installation
 
-The easiest way to install `playground` is using [Marathon](https://github.com/johnsundell/marathon):
-
-```
-$ marathon install johnsundell/playground
-```
-
-You can also install it using the Swift Package Manager:
+Using the Swift Package Manager:
 
 ```
 $ git clone https://github.com/JohnSundell/Playground.git
@@ -76,6 +70,13 @@ $ mv Sources/Playground.swift Sources/main.swift
 $ swift build -c release
 $ cp -f .build/release/Playground /usr/local/bin/playground
 ```
+
+You can also install `playground` using [Marathon](https://github.com/johnsundell/marathon) (deprecated):
+
+```
+$ marathon install johnsundell/playground
+```
+
 
 ## Help, feedback or suggestions?
 
