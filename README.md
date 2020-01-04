@@ -1,7 +1,7 @@
 # Playground
 
 [![Swift 4.1](https://img.shields.io/badge/swift-4.1-orange.svg?style=flat)](#)
-[![SwiftPM](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://github.com/apple/swift-package-manager)
+[![SwiftPM](https://img.shields.io/badge/swiftpm-compatible-brightgreen.svg?style=flat)](https://github.com/apple/swift-package-manager)
 [![@johnsundell](https://img.shields.io/badge/contact-@johnsundell-blue.svg?style=flat)](https://twitter.com/johnsundell)
 
 Welcome to `playground`, a Swift script that enables you to super quickly generate Swift playgrounds from the command line - with or without dependencies - for any supported platform.
