@@ -1,4 +1,4 @@
-// swift-tools-version:4.1
+// swift-tools-version:5.1
 
 /**
  *  Playground
@@ -6,10 +6,8 @@
  *  Licensed under the MIT license. See LICENSE file.
  */
 
-import Foundation
 import PackageDescription
 
-// Package description
 let package = Package(
     name: "Playground",
     dependencies: [
@@ -20,9 +18,7 @@ let package = Package(
     targets: [
         .target(
             name: "Playground",
-            dependencies: ["Files", "ShellOut", "Xgen"],
-            path: "Sources",
-            exclude: ["Marathonfile"]
+            dependencies: ["Files", "ShellOut", "Xgen"]
         )
     ]
 )

@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Files",
+        "repositoryURL": "https://github.com/JohnSundell/Files.git",
+        "state": {
+          "branch": null,
+          "revision": "a84615f4558151fab52ac38df697ce2442991f93",
+          "version": "2.3.0"
+        }
+      },
+      {
+        "package": "ShellOut",
+        "repositoryURL": "https://github.com/JohnSundell/ShellOut.git",
+        "state": {
+          "branch": null,
+          "revision": "4ebf25863deb9c3c02696704fc3d39736183f258",
+          "version": "2.2.1"
+        }
+      },
+      {
+        "package": "Xgen",
+        "repositoryURL": "https://github.com/JohnSundell/Xgen.git",
+        "state": {
+          "branch": null,
+          "revision": "444b9ad8f9c7720578fc46dbd09e0487eac7ddb5",
+          "version": "2.2.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
