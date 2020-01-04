@@ -1,8 +1,7 @@
 # Playground
 
 [![Swift 4.1](https://img.shields.io/badge/swift-4.1-orange.svg?style=flat)](#)
-[![Marathon](https://img.shields.io/badge/marathon-compatible-brightgreen.svg?style=flat)](https://github.com/johnsundell/marathon)
-[![SPM](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://github.com/apple/swift-package-manager)
+[![SwiftPM](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://github.com/apple/swift-package-manager)
 [![@johnsundell](https://img.shields.io/badge/contact-@johnsundell-blue.svg?style=flat)](https://twitter.com/johnsundell)
 
 Welcome to `playground`, a Swift script that enables you to super quickly generate Swift playgrounds from the command line - with or without dependencies - for any supported platform.
@@ -61,13 +60,7 @@ $ playground -p tvOS
 
 ## Installation
 
-The easiest way to install `playground` is using [Marathon](https://github.com/johnsundell/marathon):
-
-```
-$ marathon install johnsundell/playground
-```
-
-You can also install it using the Swift Package Manager:
+The easiest way to install `playground` is using the Swift Package Manager:
 
 ```
 $ git clone https://github.com/JohnSundell/Playground.git
@@ -79,6 +72,5 @@ $ cp -f .build/release/Playground /usr/local/bin/playground
 
 ## Help, feedback or suggestions?
 
-- [Open an issue](https://github.com/JohnSundell/Playground/issues/new) if you need help, if you found a bug, or if you want to discuss a feature request.
 - [Open a PR](https://github.com/JohnSundell/Playground/pull/new/master) if you want to make some change to `playground`.
 - Contact [@johnsundell on Twitter](https://twitter.com/johnsundell) for discussions, news & announcements about `playground` & other projects.
