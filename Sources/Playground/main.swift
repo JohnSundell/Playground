@@ -8,6 +8,7 @@ import ShellOut
 
 // MARK: - Extensions
 
+
 extension CommandLine {
     static var argumentsExcludingLaunchPath: [String] {
         var arguments = self.arguments
@@ -24,11 +25,15 @@ extension CommandLine {
 extension Date {
     var today: String {
         let formatter = DateFormatter()
+        let date = Date()
         formatter.dateStyle = .short
-        let date = formatter.string(from: self)
-        return date.replacingOccurrences(of: "/", with: "-")
+        formatter.timeStyle = .medium
+        let dateString = formatter.string(from: date)
+        let resultStringFromDate = dateString.replacingOccurrences(of: "/", with: "-").replacingOccurrences(of: ":", with: "-")
+        return resultStringFromDate
     }
 }
+
 
 extension Playground {
     func apply(_ options: Options) throws {
@@ -186,7 +191,7 @@ struct Options {
     var forceOverwrite = false
     var autoRun = false
     var displayHelp = false
-
+    
     init(arguments: [String] = CommandLine.argumentsExcludingLaunchPath) throws {
         let defaultTargetPath = "~/Desktop/\(Date().today).playground"
         targetPath = defaultTargetPath
