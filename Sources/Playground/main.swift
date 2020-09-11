@@ -188,7 +188,7 @@ struct Options {
     var displayHelp = false
 
     init(arguments: [String] = CommandLine.argumentsExcludingLaunchPath) throws {
-        let defaultTargetPath = "~/Desktop/\(Date().today).playground"
+        let defaultTargetPath = FileManager.default.currentDirectoryPath + "/\(Date().today).playground"
         targetPath = defaultTargetPath
 
         var currentFlag: Flag?
@@ -302,7 +302,7 @@ func displayHelp() {
         Options:
 
         📁  -t  Specify a target path where the playground should be created
-                Default: ~/Desktop/<Date>
+                Default: <currentDirectoryPath>/<Date>
         📱  -p  Select platform (iOS, macOS or tvOS) that the playground should run on
                 Default: iOS
         🏃‍♂️  -a  Turn on auto run for the generated playground
